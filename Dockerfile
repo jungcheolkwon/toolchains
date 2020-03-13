@@ -98,14 +98,14 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azu
     yum -y install azure-cli-2.2.0 && \
     #
     echo "Installing jq ${versionJq}..." && \
-    curl -sSL -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-${versionJq}/jq-linux64 && \
+    curl -sSL -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
     chmod +x /usr/local/bin/jq && \
     #
     # Install Terraform
     echo "Installing terraform ${versionTerraform}..." && \
-    #curl -sL -O https://releases.hashicorp.com/terraform/${versionTerraform}/terraform_${versionTerraform}_linux_amd64.zip 2>&1 && \
     curl -sL -O https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip 2>&1 && \
     unzip -d /usr/local/bin terraform_0.12.23_linux_amd64.zip && \
+    rm terraform*.zip && \
     #
     # Clean-up
     rm -f /tmp/*.zip && rm -f /tmp/*.gz && \
@@ -121,7 +121,8 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azu
     chmod 0440 /etc/sudoers.d/${USERNAME}
 
 RUN mkdir -p /tf/toolchains && \
-    cd /tf/toolchains && git clone https://github.com/jungcheolkwon/blueprint.git && \
+    cd /tf/toolchains && \
+    git clone https://github.com/jungcheolkwon/blueprint.git && \
     chown -R ${USERNAME}:1000 /tf/toolchains
 
 WORKDIR /tf/toolchains
