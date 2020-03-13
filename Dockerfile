@@ -22,12 +22,13 @@ RUN yum makecache fast && \
         ansible \
         net-tools \
         bind-utils \
+        tar \
         which && \
     yum -y update
 
 
 ###########################################################
-# CAF rover image
+# toolchains image
 ###########################################################
 FROM base
 
@@ -62,49 +63,49 @@ RUN yum -y install \
         gettext \
         bzip2 \
         gcc \
+        tar \
+        gzip \
         unzip && \
     #echo "Installing git ${versionGit}..." && \
-    echo "Installing git ..." && \
     #curl -sSL -o /tmp/git.tar.gz https://www.kernel.org/pub/software/scm/git/git-${versionGit}.tar.gz && \
     #tar xvf /tmp/git.tar.gz -C /tmp && \
     #cd /tmp/git-${versionGit} && \
     #./configure && make && make install && \
+    echo "Installing git ..." && \
     yum -y install git && \
     # Install Docker CE CLI.
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
     yum -y install docker-ce-cli && \
     #
-    # Install Terraform
-#    echo "Installing terraform ${versionTerraform}..." && \
-#    curl -sSL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/${versionTerraform}/terraform_${versionTerraform}_linux_amd64.zip 2>&1 && \
-#    unzip -d /usr/local/bin /tmp/terraform.zip && \
+    echo "Installing awscli" && \
+    yum -y install awscli && \
     #
-    # Install Docker-Compose - required to rebuild the rover from the rover ;)
+    # Install Docker-Compose 
     echo "Installing docker-compose ${versionDockerCompose}..." && \
     curl -sSL -o /usr/bin/docker-compose "https://github.com/docker/compose/releases/download/${versionDockerCompose}/docker-compose-Linux-x86_64" && \
     chmod +x /usr/bin/docker-compose && \
     #
     # Install Azure-cli
-#    echo "Installing azure-cli ${versionAzureCli}..." && \
-#    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-#    sh -c 'echo -e "[azure-cli] \n\
-#    name=Azure CLI \n\
-#    baseurl=https://packages.microsoft.com/yumrepos/azure-cli \n\
-#    enabled=1 \n\
-#    gpgcheck=1 \n\
-#    gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && \
-#    cat /etc/yum.repos.d/azure-cli.repo && \
-#    yum -y install azure-cli-${versionAzureCli} && \
+    echo "Installing azure-cli ${versionAzureCli}..." && \
+    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    sh -c 'echo -e "[azure-cli] \n\
+name=Azure CLI \n\
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli \n\
+enabled=1 \n\
+gpgcheck=1 \n\
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && \
+    cat /etc/yum.repos.d/azure-cli.repo && \
+    yum -y install azure-cli-2.2.0 && \
     #
     echo "Installing jq ${versionJq}..." && \
     curl -sSL -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-${versionJq}/jq-linux64 && \
     chmod +x /usr/local/bin/jq && \
     #
-    # echo "Installing graphviz ..." && \
-    # yum -y install graphviz && \
-    # && echo "Installing tflint ..." \
-    # && curl -sSL -o /tmp/tflint.zip https://github.com/wata727/tflint/releases/download/v${versionTflint}/tflint_linux_amd64.zip \
-    # && unzip -d /usr/local/bin /tmp/tflint.zip \
+    # Install Terraform
+    echo "Installing terraform ${versionTerraform}..." && \
+    #curl -sL -O https://releases.hashicorp.com/terraform/${versionTerraform}/terraform_${versionTerraform}_linux_amd64.zip 2>&1 && \
+    curl -sL -O https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip 2>&1 && \
+    unzip -d /usr/local/bin terraform_0.12.23_linux_amd64.zip && \
     #
     # Clean-up
     rm -f /tmp/*.zip && rm -f /tmp/*.gz && \
@@ -119,25 +120,10 @@ RUN yum -y install \
     echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME}
 
-
-# to force the docker cache to invalidate when there is a new version
-#ADD https://api.github.com/repos/aztfmod/level0/git/refs/heads/${versionLaunchpadOpensource} version.json
-#RUN echo "cloning the launchpads version ${versionLaunchpadOpensource}" && \
-RUN mkdir -p /tf/launchpads && \
-#    git clone https://github.com/aztfmod/level0.git /tf --branch ${versionLaunchpadOpensource} && \
-    cd /tf/launchpads && git clone https://github.com/jungcheolkwon/blueprint.git && \
-    chown -R ${USERNAME}:1000 /tf/launchpads
+RUN mkdir -p /tf/toolchains && \
+    cd /tf/toolchains && git clone https://github.com/jungcheolkwon/blueprint.git && \
+    chown -R ${USERNAME}:1000 /tf/toolchains
 
 WORKDIR /tf/toolchains
-
-#COPY ./scripts/rover.sh .
-#COPY ./scripts/launchpad.sh .
-#COPY ./scripts/functions.sh .
-
-#RUN echo "alias rover=/tf/toolchains/rover.sh" >> /home/${USERNAME}/.bashrc && \
-#    echo "alias launchpad=/tf/toolchains/launchpad.sh" >> /home/${USERNAME}/.bashrc && \
-#    echo "alias t=/usr/local/bin/terraform" >> /home/${USERNAME}/.bashrc
-
-
 
 USER ${USERNAME}
