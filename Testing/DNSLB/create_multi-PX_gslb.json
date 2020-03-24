@@ -1,0 +1,167 @@
+{
+    "account_id": "{{ACCOUNT_ID}}",
+    "catalog_id": "c-aaQnOrPjGu",
+    "plan_id": "p-__free_dns",
+    "service_type": "gslb",
+    "service_instance_name": "{{SERVICE_INSTANCE_NAME}}",
+    "configuration": {
+        "gslb_service": {
+            "load_balanced_records": {
+                "lbr1": {
+                    "aliases": [
+                        "www",
+                        "www2"
+                    ],
+                    "display_name": "Web Sites",
+                    "enable": true,
+                    "persist_cidr_ipv4": 24,
+                    "persist_cidr_ipv6": 56,
+                    "persistence": true,
+                    "persistence_ttl": 3600,
+                    "proximity_rules": [
+                        {
+                            "pool": "pools_Global_Pool",
+                            "region": "regions_Everywhere",
+                            "score": 50
+                        },
+                        {
+                            "pool": "pools_EU_Pool",
+                            "region": "regions_EU",
+                            "score": 80
+                        }
+                    ],
+                    "rr_type": "A"
+                }
+            },
+            "monitors": {
+                "monitors_Web_Site_Monitor": {
+                    "display_name": "Web Site Monitor",
+                    "monitor_type": "http",
+                    "receive": "HTTP/1.",
+                    "send": "HEAD / HTTP/1.0\\r\\n\\r\\n",
+                    "target_port": 80
+                }
+            },
+            "pools": {
+                "pools_EU_Pool": {
+                    "display_name": "EU Pool",
+                    "enable": true,
+                    "load_balancing_mode": "round-robin",
+                    "max_answers": 1,
+                    "members": [
+                        {
+                            "monitor": "monitors_Web_Site_Monitor",
+                            "virtual_server": "ipEndpoints_EU_app_instance_1"
+                        },
+                        {
+                            "monitor": "monitors_Web_Site_Monitor",
+                            "virtual_server": "ipEndpoints_EU_app_instance_2"
+                        }
+                    ],
+                    "rr_type": "A",
+                    "ttl": 30
+                },
+                "pools_Global_Pool": {
+                    "display_name": "Global Pool",
+                    "enable": true,
+                    "load_balancing_mode": "round-robin",
+                    "max_answers": 1,
+                    "members": [
+                        {
+                            "monitor": "monitors_Web_Site_Monitor",
+                            "virtual_server": "ipEndpoints_Global_app_instance_1"
+                        },
+                        {
+                            "monitor": "monitors_Web_Site_Monitor",
+                            "virtual_server": "ipEndpoints_Global_app_instance_2"
+                        }
+                    ],
+                    "rr_type": "A",
+                    "ttl": 30
+                }
+            },
+            "regions": {
+                "regions_EU": {
+                    "display_name": "Europe",
+                    "sectors": [
+                                {
+                                    "code": "EU",
+                                    "scale": "continent"
+                                }
+                            ]
+                },
+                "regions_Everywhere": {
+                    "display_name": "Everywhere",
+                    "sectors": [
+                                {
+                                    "code": "NA",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "AN",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "AS",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "OC",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "EU",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "SA",
+                                    "scale": "continent"
+                                },
+                                {
+                                    "code": "AF",
+                                    "scale": "continent"
+                                }
+                            ]
+                }
+            },
+            "virtual_servers": {
+                "ipEndpoints_EU_app_instance_1": {
+                    "address": "13.35.125.10",
+                    "display_name": "EU app instance 1",
+                    "monitor": "monitors_Web_Site_Monitor",
+                    "port": 80
+                },
+                "ipEndpoints_EU_app_instance_2": {
+                    "address": "13.35.125.74",
+                    "display_name": "EU app instance 2",
+                    "monitor": "monitors_Web_Site_Monitor",
+                    "port": 80
+                },
+                "ipEndpoints_Global_app_instance_1": {
+                    "address": "95.211.80.227",
+                    "display_name": "Global app instance 1",
+                    "monitor": "monitors_Web_Site_Monitor",
+                    "port": 80
+                },
+                "ipEndpoints_Global_app_instance_2": {
+                    "address": "206.251.255.62",
+                    "display_name": "Global app instance 2",
+                    "monitor": "monitors_Web_Site_Monitor",
+                    "port": 80
+                }
+            },
+            "zone": "{{GSLB_ZONE}}"
+        },
+        "nameservers": [
+            {
+                "ipv4": "107.162.150.190",
+                "ipv6": "2604:e180:1021::ffff:6ba2:96be/128",
+                "name": "ns91.dns.dev.f5aas.com"
+            }
+        ],
+        "schemaVersion": "0.1"
+    }
+}
+
+
+

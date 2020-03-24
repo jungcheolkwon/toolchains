@@ -1,0 +1,163 @@
+admin@(ip-10-1-1-8)(cfg-sync Changes Pending)(Active)(/Common)(tmos)# list net
+net cos global-settings { }
+net dag-globals { }
+net fdb tunnel http-tunnel { }
+net fdb tunnel openshift_vxlan {
+    records {
+        0a:0a:0a:01:14:1e {
+            endpoint 10.1.20.30%0
+        }
+        0a:0a:0a:01:14:1f {
+            endpoint 10.1.20.31%0
+        }
+        0a:0a:0a:01:14:20 {
+            endpoint 10.1.20.32%0
+        }
+    }
+}
+net fdb tunnel socks-tunnel { }
+net fdb vlan vlan-external { }
+net fdb vlan vlan-internal { }
+net interface 1.1 {
+    if-index 48
+    mac-address 06:39:2e:7b:0d:f0
+    media-fixed 10000T-FD
+    media-max 10000T-FD
+}
+net interface 1.2 {
+    if-index 64
+    mac-address 06:b4:bf:5e:28:70
+    media-fixed 10000T-FD
+    media-max 10000T-FD
+}
+net interface mgmt {
+    if-index 32
+    mac-address 06:70:9e:07:fc:34
+    media-active 100TX-FD
+    mtu 9001
+}
+net ipsec ike-daemon ikedaemon {
+    log-publisher default-ipsec-log-publisher
+}
+net lldp-globals { }
+net multicast-globals { }
+net packet-filter-trusted { }
+net route-domain 0 {
+    id 0
+    vlans {
+        vlan-external
+        http-tunnel
+        socks-tunnel
+        vlan-internal
+        openshift_vxlan
+    }
+}
+net self self-external {
+    address 10.1.10.11/24
+    traffic-group traffic-group-local-only
+    vlan vlan-external
+}
+net self self-internal {
+    address 10.1.20.11/24
+    allow-service {
+        default
+    }
+    traffic-group traffic-group-local-only
+    vlan vlan-internal
+}
+net self floating-external {
+    address 10.1.10.10/24
+    floating enabled
+    traffic-group traffic-group-1
+    unit 1
+    vlan vlan-external
+}
+net self floating-internal {
+    address 10.1.20.10/24
+    allow-service {
+        default
+    }
+    floating enabled
+    traffic-group traffic-group-1
+    unit 1
+    vlan vlan-internal
+}
+net self self-vxlan {
+    address 10.131.0.11/14
+    traffic-group traffic-group-local-only
+    vlan openshift_vxlan
+}
+net self self-vxlan-floating {
+    address 10.129.2.10/14
+    allow-service {
+        default
+    }
+    floating enabled
+    traffic-group traffic-group-1
+    unit 1
+    vlan openshift_vxlan
+}
+net self-allow {
+    defaults {
+        igmp:any
+        ospf:any
+        pim:any
+        tcp:domain
+        tcp:f5-iquery
+        tcp:https
+        tcp:snmp
+        tcp:ssh
+        udp:520
+        udp:cap
+        udp:domain
+        udp:f5-iquery
+        udp:snmp
+    }
+}
+net stp-globals { }
+net tunnels tunnel http-tunnel {
+    description "Tunnel for http-explicit profile"
+    if-index 96
+    profile tcp-forward
+}
+net tunnels tunnel openshift_vxlan {
+    if-index 160
+    local-address 10.1.20.10
+    profile vxlan-mp
+    secondary-address 10.1.20.11
+    traffic-group traffic-group-1
+}
+net tunnels tunnel socks-tunnel {
+    description "Tunnel for socks profile"
+    if-index 112
+    profile tcp-forward
+}
+net tunnels vxlan vxlan-mp {
+    app-service none
+    flooding-type multipoint
+}
+net vlan vlan-external {
+    fwd-mode l3
+    if-index 128
+    interfaces {
+        1.1 { }
+    }
+    sflow {
+        poll-interval-global no
+        sampling-rate-global no
+    }
+    tag 4094
+}
+net vlan vlan-internal {
+    fwd-mode l3
+    if-index 144
+    interfaces {
+        1.2 { }
+    }
+    sflow {
+        poll-interval-global no
+        sampling-rate-global no
+    }
+    tag 4093
+}
+admin@(ip-10-1-1-8)(cfg-sync Changes Pending)(Active)(/Common)(tmos)# 

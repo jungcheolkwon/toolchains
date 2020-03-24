@@ -1,0 +1,21 @@
+    2  sudo apt update -y
+    4  sudo vi /etc/sudoers
+    5  sudo vi /etc/hosts
+    6  sudo hostnamectl set-hostname worker1
+    7  exec bash
+    9  sudo su -
+    8  deluser ubuntu sudo
+   10  id
+   11  sudo apt upgrade -y
+   12  sudo apt install -y docker.io
+   15  sudo usermod -aG docker $(whoami)
+   16  sudo systemctl enable docker
+   17  sudo systemctl start docker
+   18  sudo systemctl status docker
+   19  sudo apt-get install apt-transport-https curl -y
+   20  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+   21  sudo swapoff -a
+   33  sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+   34  sudo apt-get install kubeadm -y
+   35  kubeadm version
+   36  sudo kubeadm join 10.10.0.115:6443 --token t8ccdj.l7a1c5wp6r3vdvei --discovery-token-ca-cert-hash sha256:8c8077efc72e380a144307e0160ca338a879ae475670698bae27c6210bfbf6bc 

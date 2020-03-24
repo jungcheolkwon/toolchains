@@ -1,0 +1,12 @@
+{
+  "kind": "HostSubnet",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "bigip2.f5demo.com",
+    "annotations": {
+      "pod.network.openshift.io/assign-subnet": "true"
+    }
+  },
+  "host": "bigip2.f5demo.com",
+  "hostIP": "10.1.20.12"
+}

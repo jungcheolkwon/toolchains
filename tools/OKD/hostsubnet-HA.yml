@@ -1,0 +1,48 @@
+---
+  #Active Device address
+  #need to chagne name under metadata and host ip address with your own info
+  apiVersion: v1
+  kind: HostSubnet
+  metadata:
+    name: f5-bigip1-node
+    annotations:
+      pod.network.openshift.io/fixed-vnid-host: "0"
+      pod.network.openshift.io/assign-subnet: "true"
+  # provide a name for the node that will serve as BIG-IP's entry into the cluster
+  host: f5-bigip1-node
+  # The hostIP address will be the BIG-IP interface address routable to the
+  # OpenShift Origin nodes.
+  # This address is the BIG-IP VTEP in the SDN's VXLAN.
+  hostIP: 10.10.2.6
+  ---
+  #Standby Device address
+  #need to chagne name under metadata and host ip address with your own info
+  apiVersion: v1
+  kind: HostSubnet
+  metadata:
+    name: f5-bigip2-node
+    annotations:
+      pod.network.openshift.io/fixed-vnid-host: "0"
+      pod.network.openshift.io/assign-subnet: "true"
+  # provide a name for the node that will serve as BIG-IP's entry into the cluster
+  host: f5-bigip2-node
+  # The hostIP address will be the BIG-IP interface address routable to the
+  # OpenShift Origin nodes.
+  # This address is the BIG-IP VTEP in the SDN's VXLAN.
+  hostIP: 10.10.2.7
+  ---
+  #Floating address
+  #need to chagne name under metadata and host ip address with your own info
+  apiVersion: v1
+  kind: HostSubnet
+  metadata:
+    name: f5-bigip-float
+    annotations:
+      pod.network.openshift.io/fixed-vnid-host: "0"
+      pod.network.openshift.io/assign-subnet: "true"
+  # provide a name for the node that will serve as BIG-IP's entry into the cluster
+  host: f5-bigip-float
+  # The hostIP address will be the BIG-IP interface address routable to the
+  # OpenShift Origin nodes.
+  # This address is the BIG-IP VTEP in the SDN's VXLAN.
+  hostIP: 10.10.2.5
