@@ -1,0 +1,5 @@
+
+
+expr {[mcget {session.ad.last.authresult}] == 1 && [mcget {session.ad.last.queryresult}] == 1}
+
+
