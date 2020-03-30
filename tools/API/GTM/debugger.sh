@@ -29,9 +29,8 @@ then
   if [ "$2" ==  "subscription" ]
   then
     echo -e "\033[32mGetting subscription info .................................. \033[0m "
-    #curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r .
     count=$(curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r '.subscriptions | length')
-    if [ count > 1 ]
+    if [ "$count" > "1" ]
     then  
       for (( i=0; i < $count; i++ ))
       do
@@ -42,4 +41,11 @@ then
     fi
     echo -e "\033[32m-----------------------------------------------------------\033[0m "
   fi
+elif [ "$1" ==  "modify" ]
+then
+  echo -e "\033[32mModifying GSLB Pool ......................................... \033[0m "
+  #sub_id=$(curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r '.subscriptions['$i'].subscription_id')
+  #sub_name=$(curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r '.subscriptions['$i'].service_instance_name')
+  curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X PUT -d @$2 "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions/$3"  | jq -r .
+  echo -e "\033[32m-------------------------------------------------------------\033[0m "
 fi
