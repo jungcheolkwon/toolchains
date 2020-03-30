@@ -57,29 +57,19 @@ then
     echo -e "\033[32mGetting subscription info .................................. \033[0m "
     curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
-  else
-    echo -e "\033[32mYou need to type what you want to see item\033[0m "
-  fi
-
-elif [ "$1" ==  "create" ]
-then
-  if [ "$2" ==  "pool" ]
-  then
-    echo -e "\033[32mCreating new GSLB Policy .................................... \033[0m "
-    #curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X get "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r .
-    echo -e "\033[32m ----------------------------------------------------\033[0m "
-  else
-    echo -e "\033[32mYou need to type what you want to modify item\033[0m "
+  #else
+  #  echo -e "\033[32mYou need to type what you want to see item\033[0m "
   fi
 
 elif [ "$1" ==  "modify" ]
 then
-  if [ "$2" ==  "pool" ]
-  then
     echo -e "\033[32mModifying GSLB Policy ....................................... \033[0m "
     echo -e "\033[32m ----------------------------------------------------\033[0m "
-  else
-    echo -e "\033[32mYou need to type what you want to modify item\033[0m "
-  fi
 
+elif [ "$1" ==  "create" ]
+then
+  echo -e "\033[32mCreating GSLB Services ..................................... \033[0m "
+  #curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X POST --data-binary @$1 "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions" | jq -r .
+  curl -sk -H "Content-Type: test/x-yaml" -H "Authorization: Bearer $token" -X POST --data-binary @$2 "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions" | jq -r .
+  echo -e "\033[32m ----------------------------------------------------\033[0m "
 fi
