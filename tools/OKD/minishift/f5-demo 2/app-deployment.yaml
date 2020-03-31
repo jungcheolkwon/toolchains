@@ -1,0 +1,50 @@
+"kind": "List"
+"apiVersion": "v1"
+"metadata": {}
+"items":
+  - "kind": "DeploymentConfig"
+    "apiVersion": "v1"
+    "metadata":
+        "name": "my-frontend"
+        "creationTimestamp": null
+        "labels":
+          "app": "my-frontend"
+    "spec":
+      "strategy":
+        "resources":
+      "triggers":
+        - "type": "ConfigChange"
+      "replicas": 1
+      "test": false
+      "selector":
+        "app": "my-frontend"
+      "template":
+        "metadata":
+          "creationTimestamp": null
+          "labels":
+            "app": "my-frontend"
+        "spec":
+          "containers":
+            - "name": "my-frontend"
+              "image": "chen23/f5-demo-app:openshift"
+              "ports":
+                - "containerPort": 8080
+                  "protocol": "TCP"
+    "status":
+  - "kind": "Service"
+    "apiVersion": "v1"
+    "metadata":
+      "name": "my-frontend"
+      "creationTimestamp": null
+      "labels":
+        "app": "my-frontend"
+    "spec":
+      "ports":
+        - "name": "8080-tcp"
+          "protocol": "TCP"
+          "port": 8080
+          "targetPort": 8080
+      "selector":
+        "app": "my-frontend"
+    "status":
+      "loadBalancer":

@@ -1,0 +1,6 @@
+
+
+kubectl create secret docker-registry regcred --docker-server=registry.internal:30500 --docker-username=registry --docker-pass
+word=registry --docker-email=gsa@f5.com -n nginx-ingress
+
+

@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-bigip-ctlr-bigip1
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: k8s-bigip-ctlr-bigip1
+      labels:
+        app: k8s-bigip-ctlr-bigip1
+    spec:
+      # Name of the Service Account bound to a Cluster Role with the required
+      # permissions
+      serviceAccountName: bigip-ctlr
+      containers:
+        - name: k8s-bigip-ctlr-bigip1
+          image: "f5networks/k8s-bigip-ctlr:1.4.0"
+          env:
+            - name: BIGIP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  # Replace with the name of the Secret containing your login
+                  # credentials
+                  name: bigip-login
+                  key: username
+            - name: BIGIP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  # Replace with the name of the Secret containing your login
+                  # credentials
+                  name: bigip-login
+                  key: password
+          command: ["/app/bin/k8s-bigip-ctlr"]
+          args: [
+            "--bigip-username=$(BIGIP_USERNAME)",
+            "--bigip-password=$(BIGIP_PASSWORD)",
+            # Replace with the IP address or hostname of your BIG-IP device
+            "--bigip-url=10.1.20.11",
+            # Replace with the name of the BIG-IP partition you want to manage
+            "--bigip-partition=kubernetes",
+            "--pool-member-type=cluster",
+            # Replace with the path to the BIG-IP VXLAN connected to the
+            # OpenShift HostSubnet
+            "--openshift-sdn-name=/Common/openshift_vxlan",
+	    "--manage-routes=true",
+	    "--route-vserver-addr=10.1.10.100"
+            ]
+      imagePullSecrets:
+        - name: f5-docker-images
+        - name: bigip-login

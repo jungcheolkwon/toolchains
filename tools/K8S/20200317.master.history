@@ -1,0 +1,32 @@
+    2  sudo apt update -y
+    3  ifconfig
+    4  sudo vi /etc/sudoers
+    5  sudo vi /etc/hosts
+    6  sudo hostnamectl set-hostname master
+    7  exec bash
+    9  sudo su -
+    8  deluser ubuntu sudo
+   10  id
+   11  sudo apt upgrade -y
+   12  sudo apt install -y docker.io
+   15  sudo usermod -aG docker $(whoami)
+   16  sudo systemctl enable docker
+   17  sudo systemctl start docker
+   18  sudo systemctl status docker
+   19  sudo apt-get install apt-transport-https curl -y
+   20  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+   21  sudo swapoff -a
+   33  sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+   34  sudo apt-get install kubeadm -y
+   35  kubeadm version
+   
+   37  sudo kubeadm init --apiserver-advertise-address=10.10.0.115 --pod-network-cidr=10.244.0.0/16
+   38  mkdir -p $HOME/.kube
+   39  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   40  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   41  sudo kubectl get nodes
+   
+   43  sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+   
+   46  kubectl get pods --all-namespaces
+   50  sudo kubectl get nodes

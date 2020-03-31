@@ -1,0 +1,18 @@
+curl -OL https://k8s.io/examples/pods/config/redis-config
+
+cat <<EOF >./kustomization.yaml
+configMapGenerator:
+- name: example-redis-config
+  files:
+  - redis-config
+EOF
+
+
+curl -OL https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/pods/config/redis-pod.yaml
+
+cat <<EOF >>./kustomization.yaml
+resources:
+- redis-pod.yaml
+EOF
+
+

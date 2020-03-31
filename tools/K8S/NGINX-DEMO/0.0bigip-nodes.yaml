@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: bigip1
+  annotations:
+    # This is the MAC address of the VXLAN tunnel you have created on the
+    # BIG-IP device
+    flannel.alpha.coreos.com/backend-data: '{"VtepMAC":"02:16:48:d2:5a:67"}'
+    flannel.alpha.coreos.com/backend-type: "vxlan"
+    flannel.alpha.coreos.com/kube-subnet-manager: "true"
+    # This address is the BIG-IP VTEP (internal address) in the Flannel VXLAN
+    flannel.alpha.coreos.com/public-ip: 10.10.2.6
+spec:
+  # This defines the Flannel subnet for the BIG-IP device. Be sure this subnet
+  # does not collide with the subnets of the other Nodes. The BIG-IP device's
+  # self-ip address will be defined in this subnet.
+  podCIDR: 10.244.0.0/16
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: bigip2
+  annotations:
+    # This is the MAC address of the VXLAN tunnel you have created on the
+    # BIG-IP device
+    flannel.alpha.coreos.com/backend-data: '{"VtepMAC":"02:2f:55:dc:39:a3"}'
+    flannel.alpha.coreos.com/backend-type: "vxlan"
+    flannel.alpha.coreos.com/kube-subnet-manager: "true"
+    # This address is the BIG-IP VTEP (internal address) in the Flannel VXLAN
+    flannel.alpha.coreos.com/public-ip: 10.10.2.7
+spec:
+  # This defines the Flannel subnet for the BIG-IP device. Be sure this subnet
+  # does not collide with the subnets of the other Nodes. The BIG-IP device's
+  # self-ip address will be defined in this subnet.
+  podCIDR: 10.244.0.0/16

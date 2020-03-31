@@ -1,0 +1,41 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  # name of the resource to create on the BIG-IP
+  name: myfronted-http.vs
+  # The namespace to create the object in.
+  # The k8s-bigip-ctlr watches all namespaces by default (as of v1.1).
+  # If the k8s-bigip-ctlr is watching a specific namespace(s),
+  # this setting must match the namespace of the Service you want to proxy
+  # -AND- the namespace(s) the k8s-bigip-ctlr watches.
+  namespace: f5-demo 
+  labels: 
+    # tells the k8s-bigip-ctlr to watch this ConfigMap
+    f5type: virtual-server
+data:
+  # NOTE: schema v0.1.4 is required as of k8s-bigip-ctlr v1.3.0
+  schema: "f5schemadb://bigip-virtual-server_v0.1.4.json"
+  data: |
+    {
+      "virtualServer": {
+        "backend": {
+          "servicePort": 8080,
+          "serviceName": "my-frontend",
+          "healthMonitors": [{
+            "interval": 30,
+            "protocol": "http",
+            "send": "GET /\r\n",
+            "timeout": 120
+          }]
+        },
+        "frontend": {
+          "virtualAddress": {
+            "port": 80,
+            "bindAddr": "10.1.10.80"
+          },
+          "partition": "kubernetes",
+          "balance": "least-connections-node",
+          "mode": "http"
+        }
+      }
+    }
