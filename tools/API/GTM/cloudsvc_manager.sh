@@ -61,7 +61,7 @@ then
   then
     echo -e "\033[32mGetting subscription info .................................. \033[0m "
     count=$(curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-subscription/subscriptions?status=_allStatusFilter&account_id=$id" | jq -r '.subscriptions | length')
-    if [ "$count" > "1" ]
+    if [[ "$count" > "1" ]]
     then  
       for (( i=0; i < $count; i++ ))
       do
