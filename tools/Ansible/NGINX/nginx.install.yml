@@ -1,0 +1,30 @@
+---
+- name: Install Test Packages
+  become: yes
+  hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Packages Update
+      become: yes
+      apt: 
+        pkg: '*'
+        update_cache: yes
+
+    - name: Set locale
+      copy: src=locale dest=/etc/default/
+
+    - name: Add to environment
+      copy: src=environment dest=/etc/
+
+    - name: Installs Dcoker
+      apt: pkg=docker.io state=present update_cache=true
+      notify:
+        - start docker
+
+    - name: Replace Server IP address
+      shell: sudo usermod -aG docker $(whoami)
+
+  handlers:
+    - name: start docker
+      service: name=docker state=restarted

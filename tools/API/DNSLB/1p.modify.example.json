@@ -1,5 +1,5 @@
 {
-    "account_id": "a-aambgbTQ2s",
+    "account_id": "xxxxxxxxxxxx",
     "catalog_id": "c-aaQnOrPjGu",
     "plan_id": "p-__free_dns",
     "service_type": "gslb",
@@ -10,9 +10,7 @@
                 "lbr1": {
                     "aliases": [
                         "www",
-                        "www*",
-                        "example",
-                        "example*"
+                        "example"
                     ],
                     "display_name": "demo.example.com",
                     "enable": true,
@@ -22,14 +20,9 @@
                     "persistence_ttl": 3600,
                     "proximity_rules": [
                         {
-                            "pool": "North_Region",
+                            "pool": "aaaaa_Global_Pool",
                             "region": "regions_Everywhere",
-                            "score": 4
-                        },
-                        {
-                            "pool": "South_Region",
-                            "region": "regions_Everywhere",
-                            "score": 6
+                            "score": 1
                         }
                     ],
                     "rr_type": "A"
@@ -43,8 +36,8 @@
                 }
             },
             "pools": {
-                "North_Region": {
-                    "display_name": "North Region",
+                "aaaaa_Global_Pool": {
+                    "display_name": "bbbb.example.com",
                     "enable": true,
                     "load_balancing_mode": "ratio-member",
                     "max_answers": 1,
@@ -52,32 +45,32 @@
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Manila_DC",
-                            "ratio": 7
+                            "ratio": 20
                         },
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Luzon_DC",
-                            "ratio": 3
-                        }
-                    ],
-                    "rr_type": "A",
-                    "ttl": 1
-                },
-                "South_Region": {
-                    "display_name": "South Region",
-                    "enable": true,
-                    "load_balancing_mode": "ratio-member",
-                    "max_answers": 1,
-                    "members": [
+                            "ratio": 20
+                        },
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Cebu_DC",
-                            "ratio": 7
+                            "ratio": 20
                         },
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Davao_DC",
-                            "ratio": 3
+                            "ratio": 20
+                        },
+                        {
+                            "monitor": "HTTP_Monitor",
+                            "virtual_server": "SG_AWS",
+                            "ratio": 10
+                        },
+                        {
+                            "monitor": "HTTP_Monitor",
+                            "virtual_server": "SG_GCP",
+                            "ratio": 10
                         }
                     ],
                     "rr_type": "A",
@@ -130,35 +123,49 @@
             },
             "virtual_servers": {
                 "Manila_DC": {
-                    "address": "15.165.103.173",
+                    "address": "1.1.1.173",
                     "display_name": "Manila DC",
                     "monitor": "HTTP_Monitor",
                     "remark": "North Region",
                     "port": 80
                 },
                 "Luzon_DC": {
-                    "address": "3.123.17.140",
+                    "address": "2.2.2.140",
                     "display_name": "Luzon DC",
                     "monitor": "HTTP_Monitor",
                     "remark": "North Region",
                     "port": 80
                 },
                 "Davao_DC": {
-                    "address": "13.57.197.189",
+                    "address": "3.3.3.189",
                     "display_name": "Davao DC",
                     "monitor": "HTTP_Monitor",
                     "remark": "South Region",
                     "port": 80
                 },
                 "Cebu_DC": {
-                    "address": "52.231.200.55",
+                    "address": "4.4.4.55",
                     "display_name": "Cebu DC",
                     "monitor": "HTTP_Monitor",
                     "remark": "South Region",
                     "port": 80
+                },
+                "SG_GCP": {
+                    "address": "5.5.5.105",
+                    "display_name": "SG GCP",
+                    "monitor": "HTTP_Monitor",
+                    "remark": "Public Cloud",
+                    "port": 80
+                },
+                "SG_AWS": {
+                    "address": "6.6.6.44",
+                    "display_name": "SG AWS",
+                    "monitor": "HTTP_Monitor",
+                    "remark": "Public Cloud",
+                    "port": 80
                 }
             },
-            "zone": "gslb.cloud5demo.info"
+            "zone": "gslb.aaaaa5demo.info"
         }
     }
 }

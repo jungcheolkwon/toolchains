@@ -1,0 +1,24 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Sumologic": {
+        "class": "Telemetry_Consumer",
+        "type": "Sumo_Logic",
+        "host": "collectors.xx.sumologic.com",
+        "protocol": "https",
+        "port": 443,
+        "path": "/receiver/v1/http/",
+        "passphrase": {
+            "cipherText": "xxxxxxxxx"
+        }
+    }
+}

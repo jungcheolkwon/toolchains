@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Stop NGINX
+      service:
+        name=nginx
+        state=stopped

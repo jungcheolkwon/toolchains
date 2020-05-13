@@ -6,13 +6,14 @@
 #https://clouddocs.f5.com/cloud-services/latest/f5-cloud-services-GSLB-Guidelines_DNS_API.html
 #https://clouddocs.f5.com/cloud-services/latest/f5-cloud-services-GS-API_Guidelines.html
 
+
 if [ $# ==  0 ]
 then
      echo -e "\033[92m---------------------  How to use ----------------------------------------------\033[0m"
      echo -e "\033[92m| You should type what you want to check[create/del]                            |\033[0m" 
-     echo -e "\033[92m| Ex)./cloudsvc_manager.sh get [user/continents/countires/regions/subscriptioin]  |\033[0m"
-     echo -e "\033[92m| Ex)./cloudsvc_manager.sh create [xxx/xxxx] ; check named rule                   |\033[0m"
-     echo -e "\033[92m| Ex)./cloudsvc_manager.sh modify [xxx/xxxx] ; rule                               |\033[0m"
+     echo -e "\033[92m| Ex)./config_manager.sh get [user/continents/countires/regions/subscriptioin]  |\033[0m"
+     echo -e "\033[92m| Ex)./config_manager.sh create [xxx/xxxx] ; check named rule                   |\033[0m"
+     echo -e "\033[92m| Ex)./config_manager.sh modify [xxx/xxxx] ; rule                               |\033[0m"
      echo -e "\033[92m--------------------------------------------------------------------------------\033[0m"
   exit 1;
 fi
@@ -30,7 +31,7 @@ then
   if [ "$2" ==  "user" ]
   then
     echo -e "\033[32mGetting user info ................................... \033[0m "
-    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/$2 | jq -r .
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/user| jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
 
   elif [ "$2" ==  "account" ]
@@ -39,22 +40,37 @@ then
     curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/accounts/$id/catalogs | jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
 
-  elif [ "$2" ==  "continents" ]
+  elif [ "$2" ==  "membership" ]
   then
-    echo -e "\033[32mGetting continents info ................................... \033[0m "
-    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-geo/$2 | jq -r .
+    user_id=($3)
+    echo -e "\033[32mGetting user info ................................... \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/users/$user_id/memberships | jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
 
-  elif [ "$2" ==  "countries" ]
+  elif [ "$2" ==  "source" ]
   then
-    echo -e "\033[32mGetting country info ................................... \033[0m "
-    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-geo/$2" | jq -r .
+    echo -e "\033[32mGetting user info ................................... \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/beacon/v1/sources | jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
 
-  elif [ "$2" ==  "regions" ]
+  elif [ "$2" ==  "token-list" ]
   then
-    echo -e "\033[32mGetting region info ........................................ \033[0m "
-    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/v1/svc-geo/$2" | jq -r .
+    echo -e "\033[32mGetting Telemetry Token list.......................... \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/beacon/v1/telemetry-token | jq -r .
+    echo -e "\033[32m ----------------------------------------------------\033[0m "
+
+  elif [ "$2" ==  "tele-token" ]
+  then
+    name=($3)
+    echo "$name"
+    echo -e "\033[32mGetting Telemetry token................................. \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/beacon/v1/telemetry-token/$name | jq -r .
+    echo -e "\033[32m ----------------------------------------------------\033[0m "
+
+  elif [ "$2" ==  "insights" ]
+  then
+    echo -e "\033[32mGetting Query Metrics....................................... \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET "https://api.cloudservices.f5.com/beacon/v1/insights" | jq -r .
     echo -e "\033[32m-------------------------------------------------------------\033[0m "
 
   elif [[ ( "$2" ==  "subscription" ) && ( "$3" == "detail" ) ]]
@@ -78,6 +94,17 @@ then
     fi
     echo -e "\033[32m-----------------------------------------------------------\033[0m "
   fi
+
+elif [ "$1" ==  "change" ]
+then
+  p_account_id="a-aambgbTQ2s"
+  catalogs="c-aacHacMCM8"
+  echo "$p_account_id"
+  echo "$catalogs"
+  echo -e "\033[32mChange Service.............................................. \033[0m "
+  curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X POST https://api.cloudservices.f5.com/v1/svc-account/accounts/$p_account_id/$catalogs | jq -r .
+  echo -e "\033[32m-------------------------------------------------------------\033[0m "
+
 
 elif [ "$1" ==  "create" ]
 then

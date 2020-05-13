@@ -10,9 +10,9 @@ if [ $# ==  0 ]
 then
      echo -e "\033[92m---------------------  How to use ----------------------------------------------\033[0m"
      echo -e "\033[92m| You should type what you want to check[create/del]                            |\033[0m" 
-     echo -e "\033[92m| Ex)./config_manager.sh get [user/continents/countires/regions/subscriptioin]  |\033[0m"
-     echo -e "\033[92m| Ex)./config_manager.sh create [xxx/xxxx] ; check named rule                   |\033[0m"
-     echo -e "\033[92m| Ex)./config_manager.sh modify [xxx/xxxx] ; rule                               |\033[0m"
+     echo -e "\033[92m| Ex)./cloudsvc_manager.sh get [user/continents/countires/regions/subscriptioin]  |\033[0m"
+     echo -e "\033[92m| Ex)./cloudsvc_manager.sh create [xxx/xxxx] ; check named rule                   |\033[0m"
+     echo -e "\033[92m| Ex)./cloudsvc_manager.sh modify [xxx/xxxx] ; rule                               |\033[0m"
      echo -e "\033[92m--------------------------------------------------------------------------------\033[0m"
   exit 1;
 fi
@@ -31,6 +31,12 @@ then
   then
     echo -e "\033[32mGetting user info ................................... \033[0m "
     curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/$2 | jq -r .
+    echo -e "\033[32m ----------------------------------------------------\033[0m "
+
+  elif [ "$2" ==  "account" ]
+  then
+    echo -e "\033[32mGetting account info ................................... \033[0m "
+    curl -sk -H "Accept: application/json" -H "Authorization: Bearer $token" -X GET https://api.cloudservices.f5.com/v1/svc-account/accounts/$id/catalogs | jq -r .
     echo -e "\033[32m ----------------------------------------------------\033[0m "
 
   elif [ "$2" ==  "continents" ]

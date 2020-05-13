@@ -1,0 +1,34 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Kafka": {
+            "class": "Telemetry_Consumer",
+        "type": "Kafka",
+        "host": "192.0.2.1",
+        "protocol": "binaryTcpTls",
+        "port": 9092,
+        "topic": "f5-telemetry"
+    },
+    "Kafka_SASL_PLAIN_auth": {
+        "class": "Telemetry_Consumer",
+        "type": "Kafka",
+        "host": "192.0.2.1",
+        "protocol": "binaryTcpTls",
+        "port": 9092,
+        "topic": "f5-telemetry",
+        "authenticationProtocol": "SASL-PLAIN",
+        "username": "username",
+        "passphrase": {
+        	"cipherText": "passphrase"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Statsd": {
+        "class": "Telemetry_Consumer",
+        "type": "Statsd",
+        "host": "192.0.2.1",
+        "protocol": "udp",
+        "port": 8125
+    }
+}

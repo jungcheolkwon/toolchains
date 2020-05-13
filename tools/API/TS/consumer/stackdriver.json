@@ -1,0 +1,19 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "Stackdriver": {
+        "class": "Telemetry_Listener",
+        "type": "Google_StackDriver",
+        "privateKey": {
+            "cipherText": "yourPrivateKey"
+        },
+        "projectId": "yourGoogleStackDriverProjectId",
+        "privateKeyId": "yourPrivateKeyId",
+        "serviceEmail": "yourServiceEmail"
+    }
+}

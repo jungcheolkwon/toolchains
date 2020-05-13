@@ -1,0 +1,28 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Fluented": {
+        "class": "Telemetry_Consumer",
+        "type": "Generic_HTTP",
+        "host": "xxxxxxxxx",
+        "protocol": "https",
+        "port": 9880,
+        "path": "/fluentd.tag",
+        "method": "POST",
+        "headers": [
+            {
+                "name": "content-type",
+                "value": "application/json"
+            }
+        ]
+    }
+}

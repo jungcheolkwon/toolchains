@@ -1,18 +1,18 @@
 {
-    "account_id": "x-xxxxxxxx2s",
-    "catalog_id": "c-aaQnOrPjGu",
+    "account_id": "xxxxxxxxxxxx",
+    "catalog_id": "c-aacHacMCM8",
     "plan_id": "p-__free_dns",
-    "service_type": "gslb",
-    "service_instance_name": "www.example.com",
+    "service_type": "beacon",
+    "service_instance_name": "demo.beacon",
     "configuration": {
         "gslb_service": {
             "load_balanced_records": {
                 "lbr1": {
                     "aliases": [
                         "www",
-                        "example"
+                        "aaa"
                     ],
-                    "display_name": "www.example.com",
+                    "display_name": "demo.aaa.com",
                     "enable": true,
                     "persist_cidr_ipv4": 24,
                     "persist_cidr_ipv6": 56,
@@ -20,7 +20,7 @@
                     "persistence_ttl": 3600,
                     "proximity_rules": [
                         {
-                            "pool": "Globe_Global_Pool",
+                            "pool": "AAA_SG_Pool",
                             "region": "regions_Everywhere",
                             "score": 1
                         }
@@ -33,33 +33,38 @@
                     "display_name": "HTTP Monitor",
                     "monitor_type": "http_standard",
                     "target_port": 80
+                },
+                "TCP_8080": {
+                    "display_name": "TCP_8080",
+                    "monitor_type": "tcp_standard",
+                    "target_port": 8080
                 }
             },
             "pools": {
-                "Globe_Global_Pool": {
-                    "display_name": "www.example.com",
+                "AAA_SG_Pool": {
+                    "display_name": "demo.aaa.com",
                     "enable": true,
                     "load_balancing_mode": "ratio-member",
                     "max_answers": 1,
                     "members": [
                         {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "Manila_DC",
+                            "monitor": "TCP_8080",
+                            "virtual_server": "East1_DC",
                             "ratio": 25
                         },
                         {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "Luzon_DC",
+                            "monitor": "TCP_8080",
+                            "virtual_server": "East2_DC",
                             "ratio": 25
                         },
                         {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "Cebu_DC",
+                            "monitor": "TCP_8080",
+                            "virtual_server": "West1_DC",
                             "ratio": 25
                         },
                         {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "Davao_DC",
+                            "monitor": "TCP_8080",
+                            "virtual_server": "West2_DC",
                             "ratio": 25
                         }
                     ],
@@ -112,36 +117,36 @@
                 }
             },
             "virtual_servers": {
-                "Manila_DC": {
-                    "address": "15.165.103.173",
-                    "display_name": "Manila DC",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "North Region",
+                "East1_DC": {
+                    "address": "1.1.1.173",
+                    "display_name": "East1 DC",
+                    "monitor": "TCP_8080",
+                    "remark": "East Region",
                     "port": 80
                 },
-                "Luzon_DC": {
-                    "address": "3.123.17.140",
-                    "display_name": "Luzon DC",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "North Region",
+                "East2_DC": {
+                    "address": "2.2.2.140",
+                    "display_name": "East2 DC",
+                    "monitor": "TCP_8080",
+                    "remark": "East Region",
                     "port": 80
                 },
-                "Davao_DC": {
-                    "address": "13.57.197.189",
-                    "display_name": "Davao DC",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "South Region",
+                "West2_DC": {
+                    "address": "3.3.3.55",
+                    "display_name": "West2 DC",
+                    "monitor": "TCP_8080",
+                    "remark": "West Region",
                     "port": 80
                 },
-                "Cebu_DC": {
-                    "address": "52.231.200.55",
-                    "display_name": "Cebu DC",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "South Region",
+                "West1_DC": {
+                    "address": "4.4.4..189",
+                    "display_name": "West1 DC",
+                    "monitor": "TCP_8080",
+                    "remark": "West Region",
                     "port": 80
                 }
             },
-            "zone": "gslb.cloud5demo.info"
+            "zone": "gslb.aaaaa5demo.info"
         }
     }
 }

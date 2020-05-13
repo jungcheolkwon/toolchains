@@ -1,0 +1,24 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "AWS_Cloudwatch": {
+        "class": "Telemetry_Consumer",
+        "type": "AWS_CloudWatch",
+        "region": "ap-northeast-2",
+        "logGroup": "xxx",
+        "logStream": "xxxx",
+        "username": "xxxx",
+        "passphrase": {
+            "cipherText": "xxxxx"
+        }
+    }
+}

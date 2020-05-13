@@ -1,0 +1,22 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Elastic": {
+        "class": "Telemetry_Consumer",
+        "type": "ElasticSearch",
+        "host": "xxxxxxxx",
+        "index": "xxxxxxxx",
+        "port": 9200,
+        "protocol": "https",
+        "dataType": "f5.telemetry"
+    }
+}

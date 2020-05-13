@@ -1,5 +1,5 @@
 {
-    "account_id": "a-aambgbTQ2s",
+    "account_id": "xxxxxxxxxxxx",
     "catalog_id": "c-aaQnOrPjGu",
     "plan_id": "p-__free_dns",
     "service_type": "gslb",
@@ -18,26 +18,18 @@
                     "enable": true,
                     "persist_cidr_ipv4": 24,
                     "persist_cidr_ipv6": 56,
-                    "persistence": true,
+                    "persistence": false,
                     "persistence_ttl": 3600,
                     "proximity_rules": [
                         {
-                            "pool": "Public_Cloud",
-                            "region": "regions_Everywhere",
-                            "score": 10,
-                            "ratio": 90
-                        },
-                        {
                             "pool": "North_Region",
                             "region": "regions_Everywhere",
-                            "score": 10,
-                            "ratio": 90
+                            "score": 4
                         },
                         {
                             "pool": "South_Region",
-                            "region": "regions_EU",
-                            "score": 10,
-                            "ratio": 10
+                            "region": "regions_Everywhere",
+                            "score": 6
                         }
                     ],
                     "rr_type": "A"
@@ -60,16 +52,16 @@
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Manila_DC",
-                            "ratio": 9
+                            "ratio": 7
                         },
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Luzon_DC",
-                            "ratio": 1
+                            "ratio": 3
                         }
                     ],
                     "rr_type": "A",
-                    "ttl": 30
+                    "ttl": 1
                 },
                 "South_Region": {
                     "display_name": "South Region",
@@ -80,36 +72,16 @@
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Cebu_DC",
-                            "ratio": 9
+                            "ratio": 7
                         },
                         {
                             "monitor": "HTTP_Monitor",
                             "virtual_server": "Davao_DC",
-                            "ratio": 1
+                            "ratio": 3
                         }
                     ],
                     "rr_type": "A",
-                    "ttl": 30
-                },
-                "Public_Cloud": {
-                    "display_name": "Public Cloud",
-                    "enable": true,
-                    "load_balancing_mode": "ratio-member",
-                    "max_answers": 1,
-                    "members": [
-                        {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "SG_Azure",
-                            "ratio": 9
-                        },
-                        {
-                            "monitor": "HTTP_Monitor",
-                            "virtual_server": "SG_AWS",
-                            "ratio": 1
-                        }
-                    ],
-                    "rr_type": "A",
-                    "ttl": 30
+                    "ttl": 1
                 }
             },
             "regions": {
@@ -157,50 +129,36 @@
                 }
             },
             "virtual_servers": {
-                "SG_Azure": {
-                    "address": "3.123.17.140",
-                    "display_name": "SG Azure",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
-                    "port": 80
-                },
-                "SG_AWS": {
-                    "address": "13.35.125.74",
-                    "display_name": "SG AWS",
-                    "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
-                    "port": 80
-                },
                 "Manila_DC": {
-                    "address": "15.165.103.173",
+                    "address": "1.1.1.173",
                     "display_name": "Manila DC",
                     "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
+                    "remark": "North Region",
                     "port": 80
                 },
                 "Luzon_DC": {
-                    "address": "13.35.125.74",
+                    "address": "2.2.2.140",
                     "display_name": "Luzon DC",
                     "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
+                    "remark": "North Region",
                     "port": 80
                 },
                 "Davao_DC": {
-                    "address": "13.76.133.207",
+                    "address": "3.3.3.189",
                     "display_name": "Davao DC",
                     "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
+                    "remark": "South Region",
                     "port": 80
                 },
                 "Cebu_DC": {
-                    "address": "13.57.197.189",
+                    "address": "4.4.4.55",
                     "display_name": "Cebu DC",
                     "monitor": "HTTP_Monitor",
-                    "remark": "www/api",
+                    "remark": "South Region",
                     "port": 80
                 }
             },
-            "zone": "gslb.cloud5demo.info"
+            "zone": "gslb.bbbbb5demo.info"
         }
     }
 }

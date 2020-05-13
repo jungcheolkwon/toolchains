@@ -1,0 +1,58 @@
+{
+    "class": "Telemetry",
+    "Poller": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60,
+            "actions": [
+                {
+                    "includeData": {},
+                    "locations": {
+                        "system": {
+                            "version$": true,
+                            "hostname": true,
+                            "machineId": true,
+                            "failoverStatus": true,
+                            "syncStatus": true,
+                            "systemTimestamp": true
+                        },
+                        "virtualServers": true,
+                        "pools": {
+                            ".*": {
+                                "activeMemberCnt": true,
+                                "serverside.bits.*": true,
+                                "serverside.curConns": true,
+                                "availabilityState": true,
+                                "enabledState": true,
+                                "name": true,
+                                "members": true
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "GSLB_Consumer": {
+        "class": "Cloud_Services_Consumer",
+        "type": "Generic_HTTP",
+        "host": "api.cloudservices.f5.com",
+        "protocol": "https",
+        "port": 443,
+        "path": "/svc-ingestion/v1/telemetry-streaming",
+        "method": "POST",
+        "enable": true,
+        "trace": true,
+        "headers": [
+            {
+                "name": "content-type",
+                "value": "application/json"
+            },
+            {
+                "name": "Grpc-Metadata-x-f5-cs-ingestion-token",
+                "value": "xxxxxxxxxxxxxx"
+            }
+        ]
+    },
+    "schemaVersion": "1.0.0"
+}
